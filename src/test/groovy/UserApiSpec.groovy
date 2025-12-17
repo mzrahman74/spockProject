@@ -36,4 +36,14 @@ class UserApiSpec extends Specification{
         and: "response contains the same title"
         response.jsonPath().getString("title") == payload.title
     }
+    def "Should fetch postId for comments"() {
+        when:
+        def response = RestAssured.given().contentType(ContentType.JSON).queryParam("postId",1 ).get("/comments")
+        .then().extract().response();
+
+        then:
+        response.statusCode()== 200
+        response.prettyPrint();
+    }
+
 }
