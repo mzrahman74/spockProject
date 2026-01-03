@@ -10,7 +10,7 @@ class UserApiSpec extends Specification {
     }
 
     def "should fetch user by id"() {
-        when:
+        when: "get call /user/1"
         def response = RestAssured.given().contentType(ContentType.JSON).get("/users/1")
                 .then().extract().response()
 
@@ -37,13 +37,12 @@ class UserApiSpec extends Specification {
     }
 
     def "Should fetch postId for comments"() {
-        when:
+        when: "comments end points"
         def response = RestAssured.given().contentType(ContentType.JSON).queryParam("postId", 1).get("/comments")
                 .then().extract().response()
 
         then:
         response.statusCode() == 200
-        response.prettyPrint()
     }
 
     def "Should update put body for 5"() {
@@ -78,6 +77,15 @@ class UserApiSpec extends Specification {
         response.statusCode() == 200
         and: "response contains body"
         response.jsonPath().getString("title") == payload.title
+    }
+
+    def "Should show all the posts" () {
+        when: "get call for /posts"
+        def response = RestAssured.given().contentType(ContentType.JSON).get("/posts")
+        .then().extract().response()
+
+        then: "response status is 200"
+        response.statusCode() == 200
     }
 
 }
